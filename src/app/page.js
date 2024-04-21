@@ -12,9 +12,7 @@ export default function Home() {
           <h2 className="text-sm text-[#8B8EAB] font-bold mt-9">Country Quiz</h2>
           <Numbers />
         </div>
-
           <Question />
-          <Options/>
       </div>
     </main>
   );
