@@ -112,7 +112,7 @@ const Question = () => {
               className={`bg-[#393F6E] w-60 h-[60px] flex flex-col justify-center items-center rounded-xl hover:bg-gradient-to-br from-[#E65895] to-[#BC6BE8] ${
                 (selectedOption === option && option === questions[index].correctAnswer) ? 'correct' :
                 (selectedOption === option && option !== questions[index].correctAnswer) ? 'incorrect' : ''
-              }`}
+              } ${selectedOption === option ? 'selected' + ' ' + 'bg-gradient-to-br from-[#E65895] to-[#BC6BE8]'  : ''}`}
               onClick={() => handleOptionSelect(option)}
             >
               {option}
@@ -133,4 +133,3 @@ const Question = () => {
 };
 
 export default Question;
-
