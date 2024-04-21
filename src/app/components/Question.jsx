@@ -6,12 +6,14 @@ const Question = () => {
   const [index, setIndex] = useState(0); // Index to track current question
   const [selectedOption, setSelectedOption] = useState(null); // State to store selected option
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false); // State to control showing correct answer
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(0); // State to count correct answers
+  const totalQuestions = 10; // Total number of questions
 
   useEffect(() => {
     fetch('https://restcountries.com/v3.1/all')
       .then(response => response.json())
       .then(data => {
-        const randomCountries = getRandomElements(data, 10);
+        const randomCountries = getRandomElements(data, totalQuestions);
         createQuiz(randomCountries);
       })
       .catch(error => console.error('Error fetching countries:', error));
@@ -29,51 +31,25 @@ const Question = () => {
     }
   
     let quizQuestions = [];
-    const numberOfQuestions = Math.min(countries.length, 10); // Limit to 10 questions or total countries if less
   
-    for (let i = 0; i < numberOfQuestions; i++) {
+    for (let i = 0; i < totalQuestions; i++) {
       const country = countries[i];
       const options = generateOptions(country, countries);
   
-      quizQuestions.push(
-        {
-          question: `Which country is ${country.capital} the capital?`,
-          options: options.capitalOptions,
-          correctAnswer: country.name.common
-        },
-        {
-          question: `Which country does this flag ${country.flag} belong to?`,
-          options: options.flagOptions,
-          correctAnswer: country.name.common
-        },
-        {
-          question: `Which country is ${country.currencies} the currency?`,
-          options: options.currencyOptions,
-          correctAnswer: country.name.common
-        },
-        {
-          question: `Which is the capital of ${country.name.common}?`,
-          options: options.countryCapitalOptions,
-          correctAnswer: country.capital
-        },
-        {
-          question: `How many population ${country.name.common} have?`,
-          options: options.populationOptions,
-          correctAnswer: country.population
-        }
-      );
+      quizQuestions.push({
+        question: `Which country is ${country.capital} the capital?`,
+        options: options.capitalOptions,
+        correctAnswer: country.name.common
+      });
     }
+  
     setQuestions(quizQuestions);
   }
 
   function generateOptions(country, countries) {
     const uniqueOptions = new Set();
     const options = {
-      capitalOptions: [],
-      flagOptions: [],
-      currencyOptions: [],
-      countryCapitalOptions: [],
-      populationOptions: []
+      capitalOptions: []
     };
 
     uniqueOptions.add(country.name.common);
@@ -87,11 +63,7 @@ const Question = () => {
     }
 
     options.capitalOptions = Array.from(uniqueOptions);
-    options.flagOptions = Array.from(uniqueOptions);
-    options.currencyOptions = Array.from(uniqueOptions);
-    options.countryCapitalOptions = Array.from(uniqueOptions);
-    options.populationOptions = Array.from(uniqueOptions);
-
+    
     return options;
   }
 
@@ -99,6 +71,27 @@ const Question = () => {
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
     setShowCorrectAnswer(true); // Always show the correct answer when an option is selected
+
+    // Increment correctAnswersCount if the selected option is correct
+    if (option === questions[index].correctAnswer) {
+      setCorrectAnswersCount(prevCount => prevCount + 1);
+    }
+
+    // Move to the next question after a delay
+    setTimeout(() => {
+      // Reset states for the next question
+      setSelectedOption(null);
+      setShowCorrectAnswer(false);
+
+      // Move to the next question if not the last question
+      if (index < totalQuestions - 1) {
+        setIndex(prevIndex => prevIndex + 1);
+      } else {
+        // If it's the last question, show the result
+        alert(`You answered ${correctAnswersCount} out of ${totalQuestions} questions correctly.`);
+        // You can replace alert with any UI component to display the result nicely
+      }
+    }, 1500); // Delay in milliseconds before moving to the next question
   };
 
   return (
@@ -112,7 +105,7 @@ const Question = () => {
               className={`bg-[#393F6E] w-60 h-[60px] flex flex-col justify-center items-center rounded-xl hover:bg-gradient-to-br from-[#E65895] to-[#BC6BE8] ${
                 (selectedOption === option && option === questions[index].correctAnswer) ? 'correct' :
                 (selectedOption === option && option !== questions[index].correctAnswer) ? 'incorrect' : ''
-              } ${selectedOption === option ? 'selected' + ' ' + 'bg-gradient-to-br from-[#E65895] to-[#BC6BE8]'  : ''}`}
+              } ${selectedOption === option ? 'selected' : ''}`}
               onClick={() => handleOptionSelect(option)}
             >
               {option}
