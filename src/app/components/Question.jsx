@@ -198,11 +198,11 @@ const Question = ({ handleIndex }) => {
               {option}
               {/* Render the check icon if the option is correct */}
               {(showCorrectAnswer && option === questions[index].correctAnswer) && (
-                <img src="/Check_round_fill.svg" alt="Correct" className="mt-2 w-6 h-6" />
+                <img src="/Check_round_fill.svg" alt="Correct" className="w-6 h-6" />
               )}
               {/* Render the close icon if the option is incorrect */}
               {(selectedOption === option && option !== questions[index].correctAnswer && showCorrectAnswer) && (
-                <img src="/Close_round_fill.svg" alt="Incorrect" className="mt-2 w-6 h-6" />
+                <img src="/Close_round_fill.svg" alt="Incorrect" className="w-6 h-6" />
               )}
             </button>
           ))}
