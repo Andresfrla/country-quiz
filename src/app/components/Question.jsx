@@ -34,36 +34,51 @@ const Question = ({ handleIndex }) => {
   
     let quizQuestions = [];
   
+    // Obtener conjuntos aleatorios de países para cada tipo de pregunta
+    const capitalCountries = getRandomElements(countries, totalQuestions);
+    const flagCountries = getRandomElements(countries, totalQuestions);
+    const countryCapitalCountries = getRandomElements(countries, totalQuestions);
+    const populationCountries = getRandomElements(countries, totalQuestions);
+  
+    // Generar preguntas para cada tipo de pregunta
     for (let i = 0; i < totalQuestions; i++) {
-      const country = countries[i];
-      const options = generateOptions(country, countries);
+      const capitalCountry = capitalCountries[i];
+      const flagCountry = flagCountries[i];
+      const countryCapitalCountry = countryCapitalCountries[i];
+      const populationCountry = populationCountries[i];
+  
+      const capitalOptions = generateOptions(capitalCountry, countries);
+      const flagOptions = generateOptions(flagCountry, countries);
+      const countryCapitalOptions = generateOptions(countryCapitalCountry, countries);
+      const populationOptions = generateOptions(populationCountry, countries);
   
       quizQuestions.push(
         {
-          question: `Which country is ${country.capital} the capital?`,
-          options: options.capitalOptions,
-          correctAnswer: country.name.common
+          question: `Which country is ${capitalCountry.capital} the capital?`,
+          options: capitalOptions.capitalOptions,
+          correctAnswer: capitalCountry.name.common
         },
         {
-          question: `Which country does this flag ${country.flag} belong to?`,
-          options: options.flagOptions,
-          correctAnswer: country.name.common
+          question: `Which country does this flag ${flagCountry.flag} belong to?`,
+          options: flagOptions.flagOptions,
+          correctAnswer: flagCountry.name.common
         },
         {
-          question: `What is the capital of ${country.name.common}?`,
-          options: options.countryCapitalOptions,
-          correctAnswer: country.capital
+          question: `What is the capital of ${countryCapitalCountry.name.common}?`,
+          options: countryCapitalOptions.countryCapitalOptions,
+          correctAnswer: countryCapitalCountry.capital
         },
         {
-          question: `What is the population of ${country.name.common}?`,
-          options: options.populationOptions,
-          correctAnswer: country.population
+          question: `What is the population of ${populationCountry.name.common}?`,
+          options: populationOptions.populationOptions,
+          correctAnswer: populationCountry.population.toLocaleString('de-DE')
         }
       );
     }
   
     setQuestions(quizQuestions);
   }
+  
   
   function generateOptions(country, countries) {
     const uniqueOptions = new Set();
