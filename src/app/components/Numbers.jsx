@@ -1,12 +1,12 @@
 const Numbers = ({ currentIndex }) => {
 
   return (
-    <div className="flex justify-between mt-5 md:mr-56 md:ml-56 sm:ml-[100px] sm:mr-[100px]">
+    <div className="flex justify-center mt-5 gap-3 md:mr-36 md:ml-36 sm:ml-[110px] sm:mr-[110px] sm:flex-wrap">
       {Array.from({ length: 10 }, (_, i) => (
         <div 
           key={i} 
-          className={`text-white font-bold rounded-full w-10 h-10 flex items-center justify-center ${
-            i < currentIndex ? 'bg-gradient-to-br from-[#E65895] to-[#BC6BE8]' : 'bg-gray-300'
+          className={`text-white rounded-full w-10 h-10 text-base flex items-center justify-center ${
+            i < currentIndex ? 'bg-gradient-to-br from-[#E65895] to-[#BC6BE8]' : 'bg-[#393F6E]'
           }`}
         >
           {i + 1}
