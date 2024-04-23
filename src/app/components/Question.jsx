@@ -1,5 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
+import Confetti from 'react-confetti';
 
 const Question = ({ handleIndex }) => {
   const [questions, setQuestions] = useState([]);
@@ -8,7 +9,8 @@ const Question = ({ handleIndex }) => {
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false); // State to control showing correct answer
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0); // State to count correct answers
   const totalQuestions = 10; // Total number of questions
-
+  const [confettiActive, setConfettiActive] = useState(false);
+  
   useEffect(() => {
     fetch('https://restcountries.com/v3.1/all')
       .then(response => response.json())
@@ -35,7 +37,6 @@ const Question = ({ handleIndex }) => {
     for (let i = 0; i < totalQuestions; i++) {
       const country = countries[i];
       const options = generateOptions(country, countries);
-      const currencyNames = Object.values(country.currencies).map(currency => currency.name)
   
       quizQuestions.push(
         {
@@ -121,11 +122,11 @@ const Question = ({ handleIndex }) => {
   
     // Generate population options
     uniqueOptions.clear();
-    uniqueOptions.add(country.population);
+    uniqueOptions.add(country.population.toLocaleString('de-DE'));
     while (uniqueOptions.size < 4) {
       const randomCountry = countries[Math.floor(Math.random() * countries.length)];
       if (randomCountry.population !== country.population) {
-        uniqueOptions.add(randomCountry.population);
+        uniqueOptions.add(randomCountry.population.toLocaleString('de-DE'));
       }
     }
     options.populationOptions = Array.from(uniqueOptions);
@@ -142,6 +143,7 @@ const Question = ({ handleIndex }) => {
     // Increment correctAnswersCount if the selected option is correct
     if (option === questions[index].correctAnswer) {
       setCorrectAnswersCount(prevCount => prevCount + 1);
+      setConfettiActive(true);
     }
 
     // Move to the next question after a delay
@@ -149,7 +151,9 @@ const Question = ({ handleIndex }) => {
       // Reset states for the next question
       setSelectedOption(null);
       setShowCorrectAnswer(false);
-
+      setTimeout(() => {
+        setConfettiActive(false);
+      }, 5000)
       // Move to the next question if not the last question
       if (index < totalQuestions - 1) {
         setIndex(prevIndex => prevIndex + 1);
@@ -163,6 +167,7 @@ const Question = ({ handleIndex }) => {
 
   return (
     <>
+      {confettiActive && <Confetti recycle={false} numberOfPieces={200} />}
       <div className="mt-5">
         <p className="text-xl">{questions.length > 0 ? questions[index].question : "Loading..."}</p>
         <div className="grid grid-cols-2 gap-6 text-base mt-10">
