@@ -1,20 +1,19 @@
-import React from 'react'
+const Numbers = ({ currentIndex }) => {
 
-const Numbers = () => {
   return (
-    <div className="flex flex-row items-center text-center place-content-evenly justify-center text-sm sm:ml-[106px] sm:mr-[106px] mt-5 sm:flex-wrap gap-[14px]">
-        <p className="bg-[#393F6E] rounded-full p-4 size-10 flex items-center justify-center">1</p>
-        <p className="bg-[#393F6E] rounded-full p-4 size-10 flex items-center justify-center">2</p>
-        <p className="bg-[#393F6E] rounded-full p-4 size-10 flex items-center justify-center">3</p>
-        <p className="bg-[#393F6E] rounded-full p-4 size-10 flex items-center justify-center">4</p>
-        <p className="bg-[#393F6E] rounded-full p-4 size-10 flex items-center justify-center">5</p>
-        <p className="bg-[#393F6E] rounded-full p-4 size-10 flex items-center justify-center">6</p>
-        <p className="bg-[#393F6E] rounded-full p-4 size-10 flex items-center justify-center">7</p>
-        <p className="bg-[#393F6E] rounded-full p-4 size-10 flex items-center justify-center">8</p>
-        <p className="bg-[#393F6E] rounded-full p-4 size-10 flex items-center justify-center">9</p>
-        <p className="bg-[#393F6E] rounded-full p-4 size-10 flex items-center justify-center">10</p>
-    </div> 
-  )
-}
+    <div className="flex justify-between mt-5 md:mr-56 md:ml-56 sm:ml-[100px] sm:mr-[100px]">
+      {Array.from({ length: 10 }, (_, i) => (
+        <div 
+          key={i} 
+          className={`text-white font-bold rounded-full w-10 h-10 flex items-center justify-center ${
+            i < currentIndex ? 'bg-gradient-to-br from-[#E65895] to-[#BC6BE8]' : 'bg-gray-300'
+          }`}
+        >
+          {i + 1}
+        </div>
+      ))}
+    </div>
+  );
+};
 
-export default Numbers
+export default Numbers;

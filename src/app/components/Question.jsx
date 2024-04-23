@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 
-const Question = () => {
+const Question = ({ handleIndex }) => {
   const [questions, setQuestions] = useState([]);
   const [index, setIndex] = useState(0); // Index to track current question
   const [selectedOption, setSelectedOption] = useState(null); // State to store selected option
@@ -71,7 +71,7 @@ const Question = () => {
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
     setShowCorrectAnswer(true); // Always show the correct answer when an option is selected
-
+    handleIndex(prevIndex => prevIndex + 1);
     // Increment correctAnswersCount if the selected option is correct
     if (option === questions[index].correctAnswer) {
       setCorrectAnswersCount(prevCount => prevCount + 1);
@@ -105,7 +105,7 @@ const Question = () => {
               className={`bg-[#393F6E] w-60 h-[60px] flex flex-col justify-center items-center rounded-xl hover:bg-gradient-to-br from-[#E65895] to-[#BC6BE8] ${
                 (selectedOption === option && option === questions[index].correctAnswer) ? 'correct' :
                 (selectedOption === option && option !== questions[index].correctAnswer) ? 'incorrect' : ''
-              } ${selectedOption === option ? 'selected' : ''}`}
+              } ${selectedOption === option ? 'selected' + ' ' + 'bg-gradient-to-br from-[#E65895] to-[#BC6BE8]' : ''}`}
               onClick={() => handleOptionSelect(option)}
             >
               {option}
