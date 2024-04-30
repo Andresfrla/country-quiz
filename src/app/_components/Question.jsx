@@ -103,7 +103,7 @@ const Question = ({ handleIndex }) => {
       }
     }
   
-    options.capitalOptions = Array.from(uniqueOptions);
+    options.capitalOptions = Array.from(uniqueOptions).sort(() => Math.random() - 0.5);
   
     // Generate flag options
     uniqueOptions.clear();
@@ -114,7 +114,7 @@ const Question = ({ handleIndex }) => {
         uniqueOptions.add(randomCountry.name.common);
       }
     }
-    options.flagOptions = Array.from(uniqueOptions);
+    options.flagOptions = Array.from(uniqueOptions).sort(() => Math.random() - 0.5);
   
     // Generate currency options
     uniqueOptions.clear();
@@ -125,7 +125,7 @@ const Question = ({ handleIndex }) => {
         uniqueOptions.add(randomCountry.name.common);
       }
     }
-    options.currencyOptions = Array.from(uniqueOptions);
+    options.currencyOptions = Array.from(uniqueOptions).sort(() => Math.random() - 0.5);
   
     // Generate country capital options
     uniqueOptions.clear();
@@ -136,7 +136,7 @@ const Question = ({ handleIndex }) => {
         uniqueOptions.add(randomCountry.capital);
       }
     }
-    options.countryCapitalOptions = Array.from(uniqueOptions);
+    options.countryCapitalOptions = Array.from(uniqueOptions).sort(() => Math.random() - 0.5);
   
     // Generate population options
     uniqueOptions.clear();
