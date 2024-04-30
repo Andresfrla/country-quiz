@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react";
-import Numbers from "./components/Numbers";
-import Question from "./components/Question";
+import Numbers from "./_components/Numbers";
+import Question from "./_components/Question";
 
 export default function Home() {
   const [index, setIndex] = useState(1); // Define y inicializa currentIndex aquí

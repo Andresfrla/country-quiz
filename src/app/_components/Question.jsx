@@ -1,4 +1,5 @@
 "use client"
+import { redirect, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 
@@ -10,6 +11,8 @@ const Question = ({ handleIndex }) => {
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0); // State to count correct answers
   const totalQuestions = 10; // Total number of questions
   const [confettiActive, setConfettiActive] = useState(false);
+
+  const router = useRouter();
   
   useEffect(() => {
     fetch('https://restcountries.com/v3.1/all')
@@ -144,7 +147,7 @@ const Question = ({ handleIndex }) => {
         uniqueOptions.add(randomCountry.population.toLocaleString('de-DE'));
       }
     }
-    options.populationOptions = Array.from(uniqueOptions);
+    options.populationOptions = Array.from(uniqueOptions).sort(() => Math.random() - 0.5);
   
     return options;
   }
@@ -173,11 +176,14 @@ const Question = ({ handleIndex }) => {
       if (index < totalQuestions - 1) {
         setIndex(prevIndex => prevIndex + 1);
       } else {
-        // If it's the last question, show the result
-        alert(`You answered ${correctAnswersCount} out of ${totalQuestions} questions correctly.`);
-        // You can replace alert with any UI component to display the result nicely
+        // If it's the last question, redirect to the results page
+        
+        router.push(`/results/${correctAnswersCount}`);
+        // Show the result in an alert
+        // alert(`You answered ${correctAnswersCount} out of ${totalQuestions} questions correctly.`);
+        // You can replace the alert with any UI component to display the result nicely
       }
-    }, 1500); // Delay in milliseconds before moving to the next question
+    }, 1500) // Delay in milliseconds before moving to the next question
   };
 
   return (
